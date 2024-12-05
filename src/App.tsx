@@ -17,9 +17,9 @@ export const goodsFromServer = [
 ];
 
 enum SortType {
-  ALPHABET = 'alphabet',
-  LENGTH = 'length',
-  DEFAULT = '',
+  alphabet = 'alphabet',
+  length = 'length',
+  default = '',
 }
 
 const getSortedGoods = (
@@ -29,10 +29,13 @@ const getSortedGoods = (
 ) => {
   const sortedGoods = [...goods];
 
-  if (sortBy === SortType.ALPHABET) {
-    sortedGoods.sort((a, b) => a.localeCompare(b));
-  } else if (sortBy === SortType.LENGTH) {
-    sortedGoods.sort((a, b) => a.length - b.length);
+  switch (sortBy) {
+    case SortType.alphabet:
+      sortedGoods.sort((a, b) => a.localeCompare(b));
+      break;
+    case SortType.length:
+      sortedGoods.sort((a, b) => a.length - b.length);
+      break;
   }
 
   if (isReversed) {
@@ -44,14 +47,14 @@ const getSortedGoods = (
 
 export const App: React.FC = () => {
   const [isReversed, setIsReversed] = useState(false);
-  const [sortBy, setSortBy] = useState<SortType>(SortType.DEFAULT);
+  const [sortBy, setSortBy] = useState<SortType>(SortType.default);
 
   const handleSortAlphabetically = () => {
-    setSortBy(SortType.ALPHABET);
+    setSortBy(SortType.alphabet);
   };
 
   const handleSortByLength = () => {
-    setSortBy(SortType.LENGTH);
+    setSortBy(SortType.length);
   };
 
   const handleReverse = () => {
@@ -59,7 +62,7 @@ export const App: React.FC = () => {
   };
 
   const handleReset = () => {
-    setSortBy(SortType.DEFAULT);
+    setSortBy(SortType.default);
     setIsReversed(false);
   };
 
@@ -73,7 +76,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', 'is-info', {
-            'is-light': sortBy !== SortType.ALPHABET,
+            'is-light': sortBy !== SortType.alphabet,
           })}
           onClick={handleSortAlphabetically}
         >
@@ -83,7 +86,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           className={classNames('button', 'is-success', {
-            'is-light': sortBy !== SortType.LENGTH,
+            'is-light': sortBy !== SortType.length,
           })}
           onClick={handleSortByLength}
         >
